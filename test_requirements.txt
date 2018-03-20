@@ -1,0 +1,13 @@
+-r requirements.txt
+
+pytest==3.3.0
+
+# pytest plugins
+pytest-flake8==0.9.1
+pytest-isort==0.1.0
+
+# flake8 plugins
+flake8-commas==0.4.3
+flake8-comprehensions==1.4.1
+flake8-quotes==0.12.1
+flake8-string-format==0.2.3
