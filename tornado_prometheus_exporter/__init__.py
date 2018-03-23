@@ -11,8 +11,6 @@ class Application(_Application):
     """ Adds Prometheus integration to Tornado """
     def __init__(self, *args, **kwargs):
         """
-        :param prometheus_static_labels: Labels that get statically applied to
-            the generated metrics.
         :param prometheus_registry: Prometheus registry that metrics are
             registered to.
         :param int prometheus_port: If not None, start prometheus server with
@@ -21,15 +19,13 @@ class Application(_Application):
         """
         super(Application, self).__init__(*args, **kwargs)
 
-        self.static_labels = kwargs.pop('static_labels', {})
         self.registry = kwargs.pop('registry', DEFAULT_REGISTRY)
 
         port = kwargs.pop('prometheus_port', None)
         buckets = kwargs.pop('prometheus_buckets', None)
 
-        default_labels = ['handler', 'method', 'status']
         histogram_kwargs = {
-            'labelnames': default_labels + list(self.static_labels.keys()),
+            'labelnames': ['handler', 'method', 'status'],
             'registry': self.registry,
         }
         if buckets is not None:
@@ -50,6 +46,5 @@ class Application(_Application):
             .labels(
                 handler=type(handler).__name__.lower(),
                 method=handler.request.method.lower(),
-                status=int(handler.get_status()),
-                **self.static_labels) \
+                status=int(handler.get_status())) \
             .observe(handler.request.request_time())
