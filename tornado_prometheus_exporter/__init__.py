@@ -33,8 +33,7 @@ class Application(_Application):
         self.request_time_histogram = Histogram(
             'tornado_http_request_duration_seconds',
             'Tornado HTTP request duration in seconds',
-            **histogram_kwargs,
-        )
+            **histogram_kwargs)
         if port is not None:
             log.info('Starting Prometheus exporter on port %s', port)
             start_http_server(port, registry=self.registry)
