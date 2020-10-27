@@ -15,6 +15,6 @@ Instead of using ``tornado.web.Application`` as base class, use ``tornado_promet
 Exported Time Series
 --------------------
 
-``tornado_http_request_duration_seconds_{count,sum,bucket}`` with as many bucket series as there are buckets.
+``http_server_requests_seconds_{count,sum,bucket}`` with as many bucket series as there are buckets.
 
 Additionally, `prometheus-client <https://github.com/prometheus/client_python>`_ exports system metrics by default.
