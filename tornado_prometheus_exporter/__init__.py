@@ -25,13 +25,13 @@ class Application(_Application):
         buckets = kwargs.pop('prometheus_buckets', None)
 
         histogram_kwargs = {
-            'labelnames': ['handler', 'method', 'status'],
+            'labelnames': ['handler', 'method', 'uri', 'status'],
             'registry': self.registry,
         }
         if buckets is not None:
             histogram_kwargs['buckets'] = buckets
         self.request_time_histogram = Histogram(
-            'tornado_http_request_duration_seconds',
+            'http_server_requests_seconds',
             'Tornado HTTP request duration in seconds',
             **histogram_kwargs)
         if port is not None:
@@ -45,5 +45,6 @@ class Application(_Application):
             .labels(
                 handler=type(handler).__name__.lower(),
                 method=handler.request.method.lower(),
+                uri=handler.request.uri.lower(),
                 status=int(handler.get_status())) \
             .observe(handler.request.request_time())
